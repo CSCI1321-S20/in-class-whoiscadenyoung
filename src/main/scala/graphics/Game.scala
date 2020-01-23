@@ -7,4 +7,5 @@ object Game extends App {
 
     println(e1.intersects(e2))
     println(e1.intersects(e3))
+    println("Howdy")
 }
