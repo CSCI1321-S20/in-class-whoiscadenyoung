@@ -20,3 +20,18 @@ class Room(val name: String, val desc: String, private val exits: Array[Int], pr
 
     def dropItem(item: Item) = items ::= item
 }
+
+object Room {
+    val rooms = readRooms()
+
+    def readRooms(): Array[Room] = {
+        val source = scala.io.Source.fromFile("world.txt")
+        val lines = source.getLines()
+        val r = Array.fill(lines.next.toInt)(readRoom(lines))
+        source.close()
+        r
+    }
+
+    def readRoom(lines: Iterator[String]): Room = ???
+
+}
