@@ -6,11 +6,9 @@
         {
             "label": "sbt",
             "type": "shell",
-            "command": "sbt run",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "command": "sbt runMain drlewis.Game",
+            "group": "build",
+            "problemMatcher": []
         }
     ]
 }
