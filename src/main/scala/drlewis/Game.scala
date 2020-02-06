@@ -33,6 +33,7 @@ object Game extends JFXApp {
                     // Instead, just pass in that a key is pressed or released
                     case KeyCode.Left => grid.leftPressed()
                     case KeyCode.Right => grid.rightPressed()
+                    case KeyCode.Up => grid.upPressed()
                     case _ => 
                 }
             }
@@ -41,6 +42,7 @@ object Game extends JFXApp {
                 ke.code match {
                     case KeyCode.Left => grid.leftReleased()
                     case KeyCode.Right => grid.rightReleased()
+                    case KeyCode.Up => grid.upReleased()
                     case _ => 
                 }
             }
