@@ -2,6 +2,7 @@ package drlewis
 
 import scalafx.scene.canvas.GraphicsContext
 import scalafx.scene.paint.Color
+import scalafx.scene.input.KeyCode
 
 class Grid {
 
@@ -10,6 +11,7 @@ class Grid {
 
     // Making private var because current pill is modifiable; use method so renderer can't change it
     private var _currentPill = new Pill(Seq(new PillHalf(3, 0, ColorOption.randomColor), new PillHalf(4, 0, ColorOption.randomColor)))
+    private var _nextPill = new Pill(Seq(new PillHalf(3, 0, ColorOption.randomColor), new PillHalf(4, 0, ColorOption.randomColor)))
     def currentPill = _currentPill
 
     private var fallDelay = 0.0
@@ -24,6 +26,7 @@ class Grid {
         new Virus(i, j, ColorOption.randomColor)
     }
 
+    private var keysHeld: Set[KeyCode] = Set()
     private var leftHeld = false
     private var rightHeld = false
     private var upHeld = false
@@ -37,26 +40,31 @@ class Grid {
         moveDelay += delay
 
         if (fallDelay >= fallInterval){
+            val movedPill = currentPill.move(0, 1, isClear)
             // Pill doesn't know if things are clear. Grid needs to tell the pill
-            _currentPill = currentPill.move(0, 1, isClear)
+            if (movedPill == _currentPill) {
+                _elements +:= _currentPill
+                _currentPill = _nextPill
+                _nextPill = new Pill(Seq(new PillHalf(3, 0, ColorOption.randomColor), new PillHalf(4, 0, ColorOption.randomColor)))
+            } else {
+                _currentPill = movedPill
+            }
             fallDelay = 0.0
         }
         if (moveDelay >= moveInterval) {
-            if (leftHeld) _currentPill = currentPill.move(-1, 0, isClear)
-            if (rightHeld) _currentPill = currentPill.move(1, 0, isClear)
-            if (upHeld) _currentPill = currentPill.rotate(isClear)
+            if (keysHeld(KeyCode.Left)) _currentPill = currentPill.move(-1, 0, isClear)
+            if (keysHeld(KeyCode.Right)) _currentPill = currentPill.move(1, 0, isClear)
+            if (keysHeld(KeyCode.Up)) _currentPill = currentPill.rotate(isClear)
+            if (keysHeld(KeyCode.Down)) _currentPill = currentPill.move(0, 1, isClear)
             moveDelay = 0.0
         }
     }
 
     def isClear(x: Int, y: Int): Boolean = {
-        y < 16 && x >= 0 && x < 8
+        // If y is in bounds and x is in bounds and there is not an element at future location
+        y < 16 && x >= 0 && x < 8 && !_elements.exists(e => e.cells.exists(c => c.x == x && c.y == y))
     }
 
-    def leftPressed(): Unit = leftHeld = true
-    def leftReleased(): Unit = leftHeld = false
-    def rightPressed(): Unit = rightHeld = true
-    def rightReleased(): Unit = rightHeld = false
-    def upPressed(): Unit = upHeld = true
-    def upReleased(): Unit = upHeld = false
+    def keyPressed(keyCode: KeyCode): Unit = keysHeld += keyCode
+    def keyReleased(keyCode: KeyCode): Unit = keysHeld -= keyCode
 }

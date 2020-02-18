@@ -28,24 +28,18 @@ object Game extends JFXApp {
             content = canvas
 
             onKeyPressed = (ke: KeyEvent) => {
-                ke.code match {
-                    // If doing move on each key update, subject to keyboard repeat delay of user
-                    // Instead, just pass in that a key is pressed or released
-                    case KeyCode.Left => grid.leftPressed()
-                    case KeyCode.Right => grid.rightPressed()
-                    case KeyCode.Up => grid.upPressed()
-                    case _ => 
-                }
+                grid.keyPressed(ke.code)
+                // ke.code match {
+                //     // If doing move on each key update, subject to keyboard repeat delay of user
+                //     // Instead, just pass in that a key is pressed or released
+                //     case KeyCode.Left => grid.leftPressed()
+                //     case KeyCode.Right => grid.rightPressed()
+                //     case KeyCode.Up => grid.upPressed()
+                //     case _ => 
+                // }
             }
 
-            onKeyReleased = (ke: KeyEvent) => {
-                ke.code match {
-                    case KeyCode.Left => grid.leftReleased()
-                    case KeyCode.Right => grid.rightReleased()
-                    case KeyCode.Up => grid.upReleased()
-                    case _ => 
-                }
-            }
+            onKeyReleased = (ke: KeyEvent) => grid.keyReleased(ke.code)
 
             // By default, counts up in nanoseconds
             // Use lastTime to hold a delay

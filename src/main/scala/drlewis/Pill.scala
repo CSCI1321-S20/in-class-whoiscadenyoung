@@ -1,6 +1,6 @@
 package drlewis
 
-class Pill(halves: Seq[PillHalf]) extends Element {
+class Pill(val halves: Seq[PillHalf]) extends Element {
     // Pill Half is a grid cell, so can pass in pill half or virus to anything that takes gridcell
     def cells: Seq[GridCell] = halves
 
@@ -26,5 +26,6 @@ class Pill(halves: Seq[PillHalf]) extends Element {
                 new Pill(Seq(s(0).move(-1, 1), s(1)))
             }
             if (newPill.halves.forall(ph => isClear(ph.x, ph.y))) newPill else this
+        }
     }
 }
