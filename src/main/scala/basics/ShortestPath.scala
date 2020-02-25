@@ -4,17 +4,17 @@ import adt.ArrayQueue
 
 object ShortestPath {
     val maze = Array(
-        Array(0,1,0,0,0,0,0,0,0,0),
-        Array(0,1,0,1,1,1,1,1,1,0),
-        Array(0,1,0,0,0,1,0,0,0,0),
-        Array(0,1,1,1,0,1,0,1,1,1),
-        Array(0,1,0,0,0,1,0,0,0,0),
-        Array(0,0,0,0,0,1,0,1,1,0),
-        Array(0,1,1,1,1,1,0,0,0,0),
-        Array(0,1,0,0,0,1,1,0,1,0),
-        Array(0,1,0,0,0,1,0,0,1,0),
-        Array(0,0,0,0,0,0,0,0,1,0)
-    )
+    Array(0,1,0,0,0,0,0,0,0,0),
+    Array(0,1,0,1,1,1,1,1,1,0),
+    Array(0,1,0,0,0,1,0,0,0,0),
+    Array(0,1,1,1,0,1,0,1,1,1),
+    Array(0,1,0,0,0,1,0,0,0,0),
+    Array(0,0,0,0,0,1,0,1,1,0),
+    Array(0,1,1,1,1,1,0,0,0,0),
+    Array(0,1,0,0,0,1,1,0,1,0),
+    Array(0,1,0,1,0,1,0,0,1,0),
+    Array(0,0,0,1,0,0,0,0,1,0)
+  )
 
     // Create an array of offsets to give directions: left, right, up, down
     // Add four more elements to array to add diagonal directions
@@ -22,7 +22,7 @@ object ShortestPath {
     
     // Recursion uses stack for breadth first search; depth first
     // Breadth does everything one step, then two steps, then three steps
-    def breadthFirst(sx: Int, sy: Int, ex: Int, ey: Int): Int = {
+    def breadthFirstShortestPath(sx: Int, sy: Int, ex: Int, ey: Int): Int = {
         
         // Ints here, doubles for game as x, y coordinates; last Int is number of steps
         val queue = new ArrayQueue[(Int, Int, Int)]()
@@ -43,7 +43,7 @@ object ShortestPath {
                 // Means inbounds and not in a wall
                 // For graphic game, use maze.width and maze.height
                 if (nx == ex && ny == ey) return steps + 1
-                if (nx >= 0 && ny < maze.length && ny >= 0 && ny < maze(nx).length && maze(nx)(ny) == 0 && !visited((nx, ny))) {
+                if (nx >= 0 && nx < maze.length && ny >= 0 && ny < maze(nx).length && maze(nx)(ny) == 0 && !visited((nx, ny))) {
                     queue.enqueue((nx, ny, steps + 1))
                     visited += nx -> ny
                 }
@@ -55,7 +55,7 @@ object ShortestPath {
     }
 
     def main(args: Array[String]): Unit = {
-        println(breadthFirst(0, 0, 9, 9))
+        println(breadthFirstShortestPath(0, 0, 9, 9))
     }
 }
 
