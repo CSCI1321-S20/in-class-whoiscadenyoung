@@ -17,7 +17,7 @@ class CrystalManager(img: WritableImage) extends Actor {
     def receive = {
         case TestMove(x, y, oldX, oldY) =>
             // x, y could be open space, out of bounds, or in a crystal that exists
-            if (x < 0 || x >= img.width.value || y < 0 or y >= img.height.value) {
+            if (x < 0 || x >= img.width.value || y < 0 || y >= img.height.value) {
                 sender ! Meth.Move(oldX, oldY)
             }
         case m => println("Unhandled message in CM: ", m)

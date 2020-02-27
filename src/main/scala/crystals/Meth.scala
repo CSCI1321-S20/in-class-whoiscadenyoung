@@ -18,7 +18,7 @@ class Meth extends Actor {
 
             // Sender is Manager, or can also use context.parent
             // Send message to parent to check if spot is open
-            sender ! CrystalManager.TestMove(x + dx, y + dy)
+            sender ! CrystalManager.TestMove(x + dx, y + dy, x, y)
         case m => println("Unhandled message in Meth: ", m)
     }
 }
